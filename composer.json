@@ -13,6 +13,7 @@
     ],
     "require": {
         "twig/twig": "^3.0",
-        "doctrine/dbal": "^4.4"
+        "doctrine/dbal": "^4.4",
+        "league/route": "^6.2"
     }
 }
