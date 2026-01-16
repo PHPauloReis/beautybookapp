@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautyBook - Clientes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gradient-to-b from-purple-900 to-purple-800 text-white flex flex-col shadow-xl">
+            <div class="p-6 border-b border-purple-700">
+                <div class="flex items-center gap-3">
+                    <span class="material-icons text-3xl">spa</span>
+                    <div>
+                        <h1 class="text-xl font-bold">BeautyBook</h1>
+                        <p class="text-xs text-purple-200">Manicure System</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="../dashboard.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a href="../manicures/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">people</span>
+                    <span>Manicures</span>
+                </a>
+                
+                <a href="index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-700 text-white">
+                    <span class="material-icons">person</span>
+                    <span>Clientes</span>
+                </a>
+                
+                <a href="../horarios/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">schedule</span>
+                    <span>Horários</span>
+                </a>
+                
+                <a href="../agendamentos/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">event</span>
+                    <span>Agendamentos</span>
+                </a>
+                
+                <a href="../estoque/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">inventory_2</span>
+                    <span>Estoque</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-purple-700">
+                <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 transition font-medium">
+                    <span class="material-icons">logout</span>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800">Clientes</h2>
+                        <p class="text-gray-600 text-sm mt-1">Gerenciar clientes</p>
+                    </div>
+                    <a href="form.html" class="bg-violet-500 hover:bg-purple-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 font-medium transition-all duration-300">
+                        <span class="material-icons text-xl">add</span>
+                        Novo Cliente
+                    </a>
+                </div>
+
+                <!-- Formulário de Busca -->
+                <div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 mb-6">
+                    <div class="p-4">
+                        <div class="flex gap-2">
+                            <div class="relative flex-1">
+                                <input 
+                                    type="text" 
+                                    id="search-input"
+                                    placeholder="Buscar cliente por nome, email ou telefone..."
+                                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200"
+                                    onkeypress="handleEnterKey(event)"
+                                >
+                                <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
+                            </div>
+                            <button 
+                                onclick="filtrarClientes()" 
+                                class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 font-medium transition-all duration-200"
+                            >
+                                <span class="material-icons text-sm">search</span>
+                                Buscar
+                            </button>
+                            <button 
+                                onclick="limparBusca()" 
+                                class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-1 font-medium transition-all duration-200"
+                            >
+                                <span class="material-icons text-sm">clear</span>
+                                Limpar
+                            </button>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-2">Digite sua busca e clique no botão "Buscar" ou pressione Enter</p>
+                    </div>
+                </div>
+
+                <div id="clientes-list" class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+                    <table class="w-full">
+                        <thead class="bg-purple-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Nome</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Email</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Telefone</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientes-tbody">
+                        </tbody>
+                    </table>
+                    <div id="clientes-empty" class="p-8 text-center text-gray-500">
+                        <span class="material-icons text-5xl mb-3 block text-gray-300">person</span>
+                        <p class="mb-4">Nenhum cliente cadastrado</p>
+                        <a href="form.html" class="bg-violet-500 hover:bg-purple-700 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
+                            <span class="material-icons">add</span>
+                            Cadastrar primeiro cliente
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Paginação -->
+                <div id="pagination" class="flex justify-center mt-6">
+                    <div class="flex items-center gap-2">
+                        <button onclick="irParaPrimeiraPagina()" class="px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-purple-50 text-sm font-medium transition-all duration-200 flex items-center gap-1" id="btn-primeira">
+                            <span class="material-icons text-sm">first_page</span>
+                            Primeira
+                        </button>
+                        <button onclick="irParaPaginaAnterior()" class="px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-purple-50 text-sm font-medium transition-all duration-200 flex items-center gap-1" id="btn-anterior">
+                            <span class="material-icons text-sm">chevron_left</span>
+                            Anterior
+                        </button>
+                        <span class="px-4 py-2 text-sm text-gray-600" id="info-pagina">
+                            Página 1 de 1
+                        </span>
+                        <button onclick="irParaProximaPagina()" class="px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-purple-50 text-sm font-medium transition-all duration-200 flex items-center gap-1" id="btn-proxima">
+                            Próxima
+                            <span class="material-icons text-sm">chevron_right</span>
+                        </button>
+                        <button onclick="irParaUltimaPagina()" class="px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-purple-50 text-sm font-medium transition-all duration-200 flex items-center gap-1" id="btn-ultima">
+                            Última
+                            <span class="material-icons text-sm">last_page</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="modal-confirmacao" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
+                        <span class="material-icons text-red-600 text-2xl">warning</span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800">Confirmar Exclusão</h3>
+                        <p class="text-sm text-gray-500">Esta ação não pode ser desfeita</p>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <p class="text-gray-700">Tem certeza que deseja excluir este registro?</p>
+                    <p class="text-sm text-gray-500 mt-2">Todos os dados relacionados a ele serão removidos permanentemente.</p>
+                </div>
+                
+                <div class="flex gap-3 justify-end">
+                    <button 
+                        onclick="fecharModal()" 
+                        class="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-all duration-200"
+                    >
+                        Cancelar
+                    </button>
+                    <button 
+                        onclick="confirmarExclusao()" 
+                        class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-all duration-200 flex items-center gap-2"
+                    >
+                        <span class="material-icons text-sm">delete</span>
+                        Excluir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Storage
+        let todosClientes = []; // Variável global para armazenar todos os clientes
+        let clientesFiltrados = []; // Clientes após filtro de busca
+        let paginaAtual = 1;
+        let itensPorPagina = 10;
+        let totalPaginas = 1;
+        
+        function getStorageData(key) {
+            return JSON.parse(localStorage.getItem(key) || '[]');
+        }
+
+        function setStorageData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        // Função para filtrar clientes
+        function filtrarClientes() {
+            const termo = document.getElementById('search-input').value.toLowerCase();
+            paginaAtual = 1; // Resetar para primeira página ao fazer nova busca
+            
+            if (termo === '') {
+                // Se não há termo de busca, mostrar todos os clientes
+                renderizarClientes(todosClientes);
+            } else {
+                // Filtrar clientes baseado no termo de busca
+                const clientesEncontrados = todosClientes.filter(cliente => {
+                    return cliente.nome.toLowerCase().includes(termo) ||
+                           cliente.email.toLowerCase().includes(termo) ||
+                           cliente.telefone.toLowerCase().includes(termo);
+                });
+                renderizarClientes(clientesEncontrados);
+            }
+        }
+
+        // Função para renderizar a lista de clientes
+        function renderizarClientes(clientes) {
+            clientesFiltrados = clientes;
+            totalPaginas = Math.ceil(clientes.length / itensPorPagina);
+            
+            // Garantir que a página atual seja válida
+            if (paginaAtual > totalPaginas) paginaAtual = 1;
+            if (paginaAtual < 1) paginaAtual = 1;
+            
+            const inicioIndex = (paginaAtual - 1) * itensPorPagina;
+            const fimIndex = inicioIndex + itensPorPagina;
+            const clientesPaginados = clientes.slice(inicioIndex, fimIndex);
+            
+            const tbody = document.getElementById('clientes-tbody');
+            const emptyDiv = document.getElementById('clientes-empty');
+            
+            tbody.innerHTML = '';
+            
+            if (clientes.length === 0) {
+                const termo = document.getElementById('search-input').value;
+                emptyDiv.style.display = 'block';
+                
+                if (termo) {
+                    // Mensagem específica para quando não há resultados da busca
+                    emptyDiv.innerHTML = `
+                        <span class="material-icons text-5xl mb-3 block text-gray-300">search_off</span>
+                        <p class="mb-4">Nenhum cliente encontrado para "${termo}"</p>
+                        <button onclick="limparBusca()" class="bg-violet-500 hover:bg-purple-700 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
+                            <span class="material-icons">clear</span>
+                            Limpar busca
+                        </button>
+                    `;
+                } else {
+                    // Mensagem padrão quando não há clientes cadastrados
+                    emptyDiv.innerHTML = `
+                        <span class="material-icons text-5xl mb-3 block text-gray-300">person</span>
+                        <p class="mb-4">Nenhum cliente cadastrado</p>
+                        <a href="form.html" class="bg-violet-500 hover:bg-purple-700 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
+                            <span class="material-icons">add</span>
+                            Cadastrar primeiro cliente
+                        </a>
+                    `;
+                }
+            } else {
+                emptyDiv.style.display = 'none';
+                
+                clientesPaginados.forEach(cliente => {
+                    const row = document.createElement('tr');
+                    row.className = 'border-b border-purple-100 hover:bg-purple-50 transition-colors duration-200';
+                    row.innerHTML = `
+                        <td class="px-6 py-4 text-sm text-gray-900 font-medium">${cliente.nome}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${cliente.email}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${cliente.telefone}</td>
+                        <td class="px-6 py-4 text-sm">
+                            <a href="form.html?id=${cliente.id}" class="text-purple-600 hover:text-purple-800 mr-3">
+                                <span class="material-icons text-lg">edit</span>
+                            </a>
+                            <button onclick="deletarCliente(${cliente.id})" class="text-red-600 hover:text-red-800">
+                                <span class="material-icons text-lg">delete</span>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+            
+            atualizarControlesPaginacao();
+        }
+
+        // Limpar busca
+        function limparBusca() {
+            document.getElementById('search-input').value = '';
+            paginaAtual = 1; // Resetar para primeira página
+            renderizarClientes(todosClientes);
+        }
+
+        // Variável para armazenar o ID do cliente a ser excluído
+        let clienteParaExcluir = null;
+
+        // Delete Function - Abre o modal de confirmação
+        function deletarCliente(id) {
+            const cliente = todosClientes.find(c => c.id == id);
+            if (cliente) {
+                clienteParaExcluir = id;
+                document.getElementById('modal-confirmacao').classList.remove('hidden');
+                
+                // Adicionar listener para fechar modal com ESC
+                document.addEventListener('keydown', handleEscapeKey);
+            }
+        }
+
+        // Função para fechar o modal
+        function fecharModal() {
+            document.getElementById('modal-confirmacao').classList.add('hidden');
+            clienteParaExcluir = null;
+            document.removeEventListener('keydown', handleEscapeKey);
+        }
+
+        // Função para confirmar a exclusão
+        function confirmarExclusao() {
+            if (clienteParaExcluir) {
+                let clientes = getStorageData('clientes');
+                clientes = clientes.filter(c => c.id != clienteParaExcluir);
+                setStorageData('clientes', clientes);
+                todosClientes = clientes; // Atualizar a variável global
+                renderizarClientes(todosClientes); // Usar nova função
+                
+                // Fechar modal
+                fecharModal();
+                
+                // Mostrar feedback de sucesso
+                mostrarFeedbackExclusao();
+            }
+        }
+
+        // Função para lidar com a tecla ESC
+        function handleEscapeKey(event) {
+            if (event.key === 'Escape') {
+                fecharModal();
+            }
+        }
+
+        // Feedback de exclusão bem-sucedida
+        function mostrarFeedbackExclusao() {
+            // Criar elemento de feedback temporário
+            const feedback = document.createElement('div');
+            feedback.className = 'fixed top-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 flex items-center gap-2';
+            feedback.innerHTML = `
+                <span class="material-icons text-sm">check_circle</span>
+                Cliente excluído com sucesso!
+            `;
+            
+            document.body.appendChild(feedback);
+            
+            // Remover após 3 segundos
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 3000);
+        }
+
+        // Render Function
+        function renderClientes() {
+            todosClientes = getStorageData('clientes'); // Carregar dados atualizados
+            renderizarClientes(todosClientes); // Usar nova função
+        }
+
+        // Funções de paginação
+        function atualizarControlesPaginacao() {
+            const infoPagina = document.getElementById('info-pagina');
+            const btnPrimeira = document.getElementById('btn-primeira');
+            const btnAnterior = document.getElementById('btn-anterior');
+            const btnProxima = document.getElementById('btn-proxima');
+            const btnUltima = document.getElementById('btn-ultima');
+            const paginacaoDiv = document.getElementById('pagination');
+            
+            // Mostrar/ocultar paginação baseado no número de itens
+            if (clientesFiltrados.length <= itensPorPagina) {
+                paginacaoDiv.style.display = 'none';
+                return;
+            } else {
+                paginacaoDiv.style.display = 'flex';
+            }
+            
+            // Atualizar informações da página
+            infoPagina.textContent = `Página ${paginaAtual} de ${totalPaginas}`;
+            
+            // Habilitar/desabilitar botões
+            btnPrimeira.disabled = paginaAtual === 1;
+            btnAnterior.disabled = paginaAtual === 1;
+            btnProxima.disabled = paginaAtual === totalPaginas;
+            btnUltima.disabled = paginaAtual === totalPaginas;
+            
+            // Atualizar estilo dos botões desabilitados
+            [btnPrimeira, btnAnterior, btnProxima, btnUltima].forEach(btn => {
+                if (btn.disabled) {
+                    btn.className = btn.className.replace('hover:bg-purple-50', 'cursor-not-allowed opacity-50');
+                } else {
+                    btn.className = btn.className.replace('cursor-not-allowed opacity-50', 'hover:bg-purple-50');
+                }
+            });
+        }
+        
+        function irParaPrimeiraPagina() {
+            paginaAtual = 1;
+            renderizarClientes(clientesFiltrados);
+        }
+        
+        function irParaPaginaAnterior() {
+            if (paginaAtual > 1) {
+                paginaAtual--;
+                renderizarClientes(clientesFiltrados);
+            }
+        }
+        
+        function irParaProximaPagina() {
+            if (paginaAtual < totalPaginas) {
+                paginaAtual++;
+                renderizarClientes(clientesFiltrados);
+            }
+        }
+        
+        function irParaUltimaPagina() {
+            paginaAtual = totalPaginas;
+            renderizarClientes(clientesFiltrados);
+        }
+
+        // Função para lidar com a tecla Enter
+        function handleEnterKey(event) {
+            if (event.key === 'Enter') {
+                filtrarClientes();
+            }
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Deseja realmente sair?')) {
+                window.location.href = '../login.html';
+            }
+        }
+
+        // Inicializar dados de exemplo se não existirem
+        function inicializarDadosExemplo() {
+            if (getStorageData('clientes').length === 0) {
+                const clientesExemplo = [
+                    { id: 1, nome: 'Maria Silva', telefone: '(11) 99999-1111', email: 'maria.silva@email.com' },
+                    { id: 2, nome: 'Ana Santos', telefone: '(11) 99999-2222', email: 'ana.santos@email.com' },
+                    { id: 3, nome: 'Carla Oliveira', telefone: '(11) 99999-3333', email: 'carla.oliveira@email.com' },
+                    { id: 4, nome: 'Beatriz Costa', telefone: '(11) 99999-4444', email: 'beatriz.costa@email.com' },
+                    { id: 5, nome: 'Fernanda Lima', telefone: '(11) 99999-5555', email: 'fernanda.lima@email.com' },
+                    { id: 6, nome: 'Juliana Rocha', telefone: '(11) 99999-6666', email: 'juliana.rocha@email.com' },
+                    { id: 7, nome: 'Patricia Mendes', telefone: '(11) 99999-7777', email: 'patricia.mendes@email.com' },
+                    { id: 8, nome: 'Roberta Alves', telefone: '(11) 99999-8888', email: 'roberta.alves@email.com' },
+                    { id: 9, nome: 'Vanessa Sousa', telefone: '(11) 99999-9999', email: 'vanessa.sousa@email.com' },
+                    { id: 10, nome: 'Tatiana Barbosa', telefone: '(11) 99999-0000', email: 'tatiana.barbosa@email.com' },
+                    { id: 11, nome: 'Cristina Martins', telefone: '(11) 99999-1122', email: 'cristina.martins@email.com' },
+                    { id: 12, nome: 'Daniela Pereira', telefone: '(11) 99999-3344', email: 'daniela.pereira@email.com' },
+                    { id: 13, nome: 'Fabiana Ramos', telefone: '(11) 99999-5566', email: 'fabiana.ramos@email.com' },
+                    { id: 14, nome: 'Gabriela Santos', telefone: '(11) 99999-7788', email: 'gabriela.santos@email.com' },
+                    { id: 15, nome: 'Helena Costa', telefone: '(11) 99999-9900', email: 'helena.costa@email.com' }
+                ];
+                setStorageData('clientes', clientesExemplo);
+            }
+        }
+
+        // Fechar modal clicando fora dele
+        document.addEventListener('click', function(event) {
+            const modal = document.getElementById('modal-confirmacao');
+            if (event.target === modal) {
+                fecharModal();
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            inicializarDadosExemplo();
+            renderClientes();
+        });
+    </script>
+</body>
+</html>

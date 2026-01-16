@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautyBook - Manicure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-inter bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gradient-to-b from-purple-900 to-purple-800 text-white flex flex-col shadow-xl">
+            <div class="p-6 border-b border-purple-700">
+                <div class="flex items-center gap-3">
+                    <span class="material-icons text-3xl">spa</span>
+                    <div>
+                        <h1 class="text-xl font-bold">BeautyBook</h1>
+                        <p class="text-xs text-purple-200">Manicure System</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="../dashboard.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a href="index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-700 text-white">
+                    <span class="material-icons">people</span>
+                    <span>Manicures</span>
+                </a>
+                
+                <a href="../clientes/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">person</span>
+                    <span>Clientes</span>
+                </a>
+                
+                <a href="../horarios/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">schedule</span>
+                    <span>Horários</span>
+                </a>
+                
+                <a href="../agendamentos/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">event</span>
+                    <span>Agendamentos</span>
+                </a>
+                
+                <a href="../estoque/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">inventory_2</span>
+                    <span>Estoque</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-purple-700">
+                <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 transition font-medium">
+                    <span class="material-icons">logout</span>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-auto flex justify-center">
+            <div class="w-full p-8">
+                <!-- Header -->
+                <div class="flex items-center gap-4 mb-8">
+                    <button onclick="window.location.href='index.html'" class="text-gray-600 hover:text-gray-800">
+                        <span class="material-icons">arrow_back</span>
+                    </button>
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-800" id="page-title">Nova Manicure</h2>
+                        <p class="text-gray-600 text-sm mt-1">Preencha os dados da manicure</p>
+                    </div>
+                </div>
+
+                <!-- Form -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-12 w-full">
+                        <form onsubmit="salvarManicure(event)">
+                            <input type="hidden" id="manicure-id">
+                            
+                            <!-- Nome -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nome Completo *</label>
+                                <input 
+                                    type="text" 
+                                    id="manicure-nome" 
+                                    required 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 focus:outline-none transition-all duration-200"
+                                    placeholder="Digite o nome completo"
+                                >
+                            </div>
+                            
+                            <!-- Telefone -->
+                            <div class="mb-6">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Telefone *</label>
+                                <input 
+                                    type="tel" 
+                                    id="manicure-telefone" 
+                                    required 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 focus:outline-none transition-all duration-200"
+                                    placeholder="(XX) XXXXX-XXXX"
+                                >
+                            </div>
+                            
+                            <!-- Especialidade -->
+                            <div class="mb-8">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Especialidade *</label>
+                                <input 
+                                    type="text" 
+                                    id="manicure-especialidade" 
+                                    required 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 focus:outline-none transition-all duration-200"
+                                    placeholder="Ex: Unhas de gel, manicure clássica, nail art..."
+                                >
+                            </div>
+                            
+                            <!-- Buttons -->
+                            <div class="flex gap-4">
+                                <button 
+                                    type="button" 
+                                    onclick="window.location.href='index.html'" 
+                                    class="flex-1 bg-gray-100 text-gray-700 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-all duration-300"
+                                >
+                                    Cancelar
+                                </button>
+                                <button 
+                                    type="submit" 
+                                    class="flex-1 bg-violet-500 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300"
+                                >
+                                    <span id="btn-text">Salvar</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Data Storage
+        function getStorageData(key) {
+            return JSON.parse(localStorage.getItem(key) || '[]');
+        }
+
+        function setStorageData(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        // Get URL parameters
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Load manicure for editing
+        function carregarManicure() {
+            const id = getUrlParameter('id');
+            if (id) {
+                const manicures = getStorageData('manicures');
+                const manicure = manicures.find(m => m.id == id);
+                
+                if (manicure) {
+                    document.getElementById('page-title').textContent = 'Editar Manicure';
+                    document.getElementById('btn-text').textContent = 'Atualizar';
+                    document.getElementById('manicure-id').value = manicure.id;
+                    document.getElementById('manicure-nome').value = manicure.nome;
+                    document.getElementById('manicure-telefone').value = manicure.telefone;
+                    document.getElementById('manicure-especialidade').value = manicure.especialidade;
+                }
+            }
+        }
+
+        // Save manicure
+        function salvarManicure(e) {
+            e.preventDefault();
+            
+            const id = document.getElementById('manicure-id').value;
+            const manicure = {
+                id: id || Date.now(),
+                nome: document.getElementById('manicure-nome').value.trim(),
+                telefone: document.getElementById('manicure-telefone').value.trim(),
+                especialidade: document.getElementById('manicure-especialidade').value.trim()
+            };
+
+            let manicures = getStorageData('manicures');
+
+            if (id) {
+                // Update existing
+                const index = manicures.findIndex(m => m.id == id);
+                if (index !== -1) {
+                    manicures[index] = manicure;
+                }
+            } else {
+                // Add new
+                manicures.push(manicure);
+            }
+
+            setStorageData('manicures', manicures);
+            
+            // Show success message and redirect
+            alert(id ? 'Manicure atualizada com sucesso!' : 'Manicure cadastrada com sucesso!');
+            window.location.href = 'index.html';
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Deseja realmente sair?')) {
+                window.location.href = '../login.html';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', carregarManicure);
+    </script>
+</body>
+</html>

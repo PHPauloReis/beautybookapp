@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautyBook - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    keyframes: {
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(30px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' }
+                        }
+                    },
+                    animation: {
+                        slideUp: 'slideUp 0.5s ease'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-icons {
+            font-feature-settings: 'liga';
+        }
+    </style>
+</head>
+<body class="font-inter bg-gradient-to-br from-violet-500 to-purple-700 min-h-screen flex items-center justify-center">
+    <div class="bg-white rounded-3xl shadow-2xl overflow-hidden max-w-md w-full animate-slideUp">
+        <!-- Header -->
+        <div class="bg-gradient-to-b from-purple-900 to-purple-800 p-8 text-center">
+            <div class="flex justify-center mb-3">
+                <span class="material-icons text-white" style="font-size: 48px;">spa</span>
+            </div>
+            <h1 class="text-3xl font-bold text-white mb-2">BeautyBook</h1>
+            <p class="text-purple-200 text-sm">Sistema de Agendamento</p>
+        </div>
+
+        <!-- Login Form -->
+        <div class="p-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Bem-vindo de volta!</h2>
+            
+            <!-- Success Alert -->
+            <div class="hidden mb-6 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center gap-3">
+                <span class="material-icons text-green-600" style="font-size: 20px;">check_circle</span>
+                <div class="flex-1">
+                    <p class="text-sm font-medium">Senha redefinida com sucesso!</p>
+                    <p class="text-xs text-green-600 mt-1">Você já pode fazer login com sua nova senha.</p>
+                </div>
+            </div>
+
+            <!-- Error Alert -->
+            <div class="hidden mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center gap-3">
+                <span class="material-icons text-red-600" style="font-size: 20px;">error</span>
+                <div class="flex-1">
+                    <p class="text-sm font-medium">Credenciais inválidas!</p>
+                    <p class="text-xs text-red-600 mt-1">E-mail ou senha incorretos. Tente novamente.</p>
+                </div>
+            </div>
+            
+            <form method="post" action="#">
+                <!-- Email Input -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <span class="flex items-center gap-2">
+                            <span class="material-icons text-gray-500" style="font-size: 18px;">email</span>
+                            E-mail
+                        </span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        required 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 focus:outline-none transition-all duration-200"
+                        placeholder="seu@email.com"
+                    >
+                </div>
+
+                <!-- Password Input -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">
+                        <span class="flex items-center gap-2">
+                            <span class="material-icons text-gray-500" style="font-size: 18px;">lock</span>
+                            Senha
+                        </span>
+                    </label>
+                    <input 
+                        type="password" 
+                        id="senha" 
+                        required 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 focus:outline-none transition-all duration-200"
+                        placeholder="••••••••"
+                    >
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between mb-6">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" id="lembrar" class="w-4 h-4 rounded border-2 border-gray-300 text-violet-500 focus:ring-violet-500/20 focus:ring-2 transition-all duration-200">
+                        <span class="text-sm text-gray-600">Lembrar meu e-mail</span>
+                    </label>
+                    <a href="esqueci_minha_senha.html" class="text-sm text-violet-500 hover:text-purple-700 hover:underline transition-all duration-200">
+                        Esqueci minha senha
+                    </a>
+                </div>
+
+                <!-- Login Button -->
+                <button 
+                    type="submit" 
+                    class="w-full bg-violet-500 hover:bg-purple-700 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-violet-500/30 text-white py-3 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 transition-all duration-300 border-none cursor-pointer"
+                >
+                    <span class="material-icons">login</span>
+                    Entrar
+                </button>
+            </form>
+
+            <!-- Sign Up Link -->
+            <div class="text-center mt-6">
+                <p class="text-gray-600 text-sm">
+                    Ainda não tem conta? 
+                    <a href="cadastro.html" class="text-violet-500 hover:text-purple-700 hover:underline transition-all duration-200 font-semibold">
+                        Criar conta
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

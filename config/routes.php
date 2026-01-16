@@ -1,9 +1,9 @@
 <?php
 
-use App\Controllers\HelloController;
+use App\Controllers\ManicuresController;
 use League\Route\Router;
 
 $router = new Router();
 
-$router->map('GET', '/', [HelloController::class, 'index']);
-$router->map('GET', '/quem-somos', [HelloController::class, 'quemSomos']);
+$router->map('GET', '/', [ManicuresController::class, 'index']);
+$router->map('GET', '/exemplo2', [ManicuresController::class, 'exemplo2']);

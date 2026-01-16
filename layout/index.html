@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeautyBook - Redirecionando...</title>
+    <script>
+        // Redirect to dashboard
+        window.location.href = 'dashboard.html';
+    </script>
+</head>
+<body>
+    <div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif;">
+        <p>Redirecionando para o dashboard...</p>
+    </div>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f7fc;
+        }
+        
+        .material-icons {
+            font-feature-settings: 'liga';
+        }
+        
+        .sidebar-active {
+            background-color: rgba(139, 92, 246, 0.1);
+            border-left: 4px solid #8b5cf6;
+        }
+        
+        .btn-primary {
+            background-color: #8b5cf6;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #7c3aed;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(139, 92, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: #e9d5ff;
+            color: #7c3aed;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #ddd6fe;
+        }
+        
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #8b5cf6 !important;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .badge-purple {
+            background-color: rgba(139, 92, 246, 0.1);
+            color: #7c3aed;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(139, 92, 246, 0.15);
+        }
+        
+        .table-row {
+            border-bottom: 1px solid #f3e8ff;
+            transition: background-color 0.2s ease;
+        }
+        
+        .table-row:hover {
+            background-color: #faf5ff;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gradient-to-b from-purple-900 to-purple-800 text-white flex flex-col shadow-xl">
+            <div class="p-6 border-b border-purple-700">
+                <div class="flex items-center gap-3">
+                    <span class="material-icons text-3xl">spa</span>
+                    <div>
+                        <h1 class="text-xl font-bold">BeautyBook</h1>
+                        <p class="text-xs text-purple-200">Manicure System</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-2">
+                <button onclick="showSection('dashboard')" class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition sidebar-active">
+                    <span class="material-icons">dashboard</span>
+                    <span>Dashboard</span>
+                </button>
+                
+                <button onclick="showSection('manicures')" class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">people</span>
+                    <span>Manicures</span>
+                </button>
+                
+                <button onclick="showSection('clientes')" class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">person</span>
+                    <span>Clientes</span>
+                </button>
+                
+                <button onclick="showSection('horarios')" class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">schedule</span>
+                    <span>Horários</span>
+                </button>
+                
+                <button onclick="showSection('agendamentos')" class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">event</span>
+                    <span>Agendamentos</span>
+                </button>
+                
+                <button onclick="showSection('estoque')" class="menu-item w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">inventory_2</span>
+                    <span>Estoque</span>
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-purple-700">
+                <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 transition font-medium">
+                    <span class="material-icons">logout</span>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-auto">
+            <div class="p-8">
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="section">
+                    <div class="mb-8">
+                        <h2 class="text-3xl font-bold text-gray-800 mb-2">Dashboard</h2>
+                        <p class="text-gray-600">Bem-vindo ao sistema de agendamento</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Total de Manicures</p>
+                                    <p class="text-3xl font-bold text-purple-600 mt-2" id="total-manicures">0</p>
+                                </div>
+                                <span class="material-icons text-4xl text-purple-200">people</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Total de Clientes</p>
+                                    <p class="text-3xl font-bold text-purple-600 mt-2" id="total-clientes">0</p>
+                                </div>
+                                <span class="material-icons text-4xl text-purple-200">person</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Agendamentos Hoje</p>
+                                    <p class="text-3xl font-bold text-purple-600 mt-2" id="agendamentos-hoje">0</p>
+                                </div>
+                                <span class="material-icons text-4xl text-purple-200">event</span>
+                            </div>
+                        </div>
+                        
+                        <div class="card p-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-gray-600 text-sm font-medium">Itens em Estoque</p>
+                                    <p class="text-3xl font-bold text-purple-600 mt-2" id="itens-estoque">0</p>
+                                </div>
+                                <span class="material-icons text-4xl text-purple-200">inventory_2</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Manicures Section -->
+                <section id="manicures-section" class="section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-800">Manicures</h2>
+                            <p class="text-gray-600 text-sm mt-1">Gerenciar profissionais</p>
+                        </div>
+                        <button onclick="openModal('manicureModal')" class="btn-primary px-6 py-2 rounded-lg flex items-center gap-2 font-medium">
+                            <span class="material-icons text-xl">add</span>
+                            Nova Manicure
+                        </button>
+                    </div>
+
+                    <div id="manicures-list" class="card overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-purple-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Nome</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Telefone</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Especialidade</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="manicures-tbody">
+                            </tbody>
+                        </table>
+                        <div id="manicures-empty" class="p-8 text-center text-gray-500">
+                            <span class="material-icons text-5xl mb-3 block text-gray-300">people</span>
+                            Nenhuma manicure cadastrada
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Clientes Section -->
+                <section id="clientes-section" class="section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-800">Clientes</h2>
+                            <p class="text-gray-600 text-sm mt-1">Gerenciar clientes</p>
+                        </div>
+                        <button onclick="openModal('clienteModal')" class="btn-primary px-6 py-2 rounded-lg flex items-center gap-2 font-medium">
+                            <span class="material-icons text-xl">add</span>
+                            Novo Cliente
+                        </button>
+                    </div>
+
+                    <div id="clientes-list" class="card overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-purple-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Nome</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Email</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Telefone</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientes-tbody">
+                            </tbody>
+                        </table>
+                        <div id="clientes-empty" class="p-8 text-center text-gray-500">
+                            <span class="material-icons text-5xl mb-3 block text-gray-300">person</span>
+                            Nenhum cliente cadastrado
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Horários Section -->
+                <section id="horarios-section" class="section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-800">Horários Disponíveis</h2>
+                            <p class="text-gray-600 text-sm mt-1">Gerenciar horários das manicures</p>
+                        </div>
+                        <button onclick="openModal('horarioModal')" class="btn-primary px-6 py-2 rounded-lg flex items-center gap-2 font-medium">
+                            <span class="material-icons text-xl">add</span>
+                            Novo Horário
+                        </button>
+                    </div>
+
+                    <div id="horarios-list" class="card overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-purple-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Manicure</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Dia da Semana</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Início</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Fim</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="horarios-tbody">
+                            </tbody>
+                        </table>
+                        <div id="horarios-empty" class="p-8 text-center text-gray-500">
+                            <span class="material-icons text-5xl mb-3 block text-gray-300">schedule</span>
+                            Nenhum horário cadastrado
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Agendamentos Section -->
+                <section id="agendamentos-section" class="section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-800">Agendamentos</h2>
+                            <p class="text-gray-600 text-sm mt-1">Gerenciar agendamentos</p>
+                        </div>
+                        <button onclick="openModal('agendamentoModal')" class="btn-primary px-6 py-2 rounded-lg flex items-center gap-2 font-medium">
+                            <span class="material-icons text-xl">add</span>
+                            Novo Agendamento
+                        </button>
+                    </div>
+
+                    <div id="agendamentos-list" class="card overflow-hidden">
+                        <table class="w-full">
+                            <thead class="bg-purple-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Cliente</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Manicure</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Data</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Horário</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
+                                    <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="agendamentos-tbody">
+                            </tbody>
+                        </table>
+                        <div id="agendamentos-empty" class="p-8 text-center text-gray-500">
+                            <span class="material-icons text-5xl mb-3 block text-gray-300">event</span>
+                            Nenhum agendamento realizado
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Estoque Section -->
+                <section id="estoque-section" class="section hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold text-gray-800">Estoque</h2>
+                            <p class="text-gray-600 text-sm mt-1">Gerenciar insumos</p>
+                        </div>
+                        <button onclick="openModal('estoqueModal')" class="btn-primary px-6 py-2 rounded-lg flex items-center gap-2 font-medium">
+                            <span class="material-icons text-xl">add</span>
+                            Adicionar Insumo
+                        </button>
+                    </div>
+
+                    <div id="estoque-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    </div>
+                    <div id="estoque-empty" class="card p-8 text-center text-gray-500">
+                        <span class="material-icons text-5xl mb-3 block text-gray-300">inventory_2</span>
+                        Nenhum insumo cadastrado
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Modal Manicure -->
+    <div id="manicureModal" class="modal" onclick="closeModalOnBackground(event, 'manicureModal')">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Manicure</h3>
+                <button onclick="closeModal('manicureModal')" class="text-gray-400 hover:text-gray-600">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <form onsubmit="salvarManicure(event)">
+                <input type="hidden" id="manicure-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nome *</label>
+                    <input type="text" id="manicure-nome" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Nome completo">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Telefone *</label>
+                    <input type="tel" id="manicure-telefone" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="(XX) XXXXX-XXXX">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Especialidade *</label>
+                    <input type="text" id="manicure-especialidade" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Ex: Unhas de gel, manicure clássica...">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeModal('manicureModal')" class="flex-1 btn-secondary px-4 py-2 rounded-lg font-medium">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 btn-primary px-4 py-2 rounded-lg font-medium">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Cliente -->
+    <div id="clienteModal" class="modal" onclick="closeModalOnBackground(event, 'clienteModal')">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Cliente</h3>
+                <button onclick="closeModal('clienteModal')" class="text-gray-400 hover:text-gray-600">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <form onsubmit="salvarCliente(event)">
+                <input type="hidden" id="cliente-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nome *</label>
+                    <input type="text" id="cliente-nome" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Nome completo">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                    <input type="email" id="cliente-email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="email@exemplo.com">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Telefone *</label>
+                    <input type="tel" id="cliente-telefone" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="(XX) XXXXX-XXXX">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeModal('clienteModal')" class="flex-1 btn-secondary px-4 py-2 rounded-lg font-medium">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 btn-primary px-4 py-2 rounded-lg font-medium">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Horário -->
+    <div id="horarioModal" class="modal" onclick="closeModalOnBackground(event, 'horarioModal')">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Horário Disponível</h3>
+                <button onclick="closeModal('horarioModal')" class="text-gray-400 hover:text-gray-600">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <form onsubmit="salvarHorario(event)">
+                <input type="hidden" id="horario-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Manicure *</label>
+                    <select id="horario-manicure" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="">Selecione uma manicure</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Dia da Semana *</label>
+                    <select id="horario-dia" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="">Selecione um dia</option>
+                        <option value="Segunda">Segunda-feira</option>
+                        <option value="Terça">Terça-feira</option>
+                        <option value="Quarta">Quarta-feira</option>
+                        <option value="Quinta">Quinta-feira</option>
+                        <option value="Sexta">Sexta-feira</option>
+                        <option value="Sábado">Sábado</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Hora de Início *</label>
+                    <input type="time" id="horario-inicio" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Hora de Término *</label>
+                    <input type="time" id="horario-fim" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeModal('horarioModal')" class="flex-1 btn-secondary px-4 py-2 rounded-lg font-medium">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 btn-primary px-4 py-2 rounded-lg font-medium">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Agendamento -->
+    <div id="agendamentoModal" class="modal" onclick="closeModalOnBackground(event, 'agendamentoModal')">
+        <div class="modal-content max-w-lg">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Novo Agendamento</h3>
+                <button onclick="closeModal('agendamentoModal')" class="text-gray-400 hover:text-gray-600">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <form onsubmit="salvarAgendamento(event)">
+                <input type="hidden" id="agendamento-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Cliente *</label>
+                    <select id="agendamento-cliente" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="">Selecione um cliente</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Manicure *</label>
+                    <select id="agendamento-manicure" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="">Selecione uma manicure</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Data *</label>
+                    <input type="date" id="agendamento-data" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Horário *</label>
+                    <input type="time" id="agendamento-horario" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeModal('agendamentoModal')" class="flex-1 btn-secondary px-4 py-2 rounded-lg font-medium">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 btn-primary px-4 py-2 rounded-lg font-medium">
+                        Agendar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Estoque -->
+    <div id="estoqueModal" class="modal" onclick="closeModalOnBackground(event, 'estoqueModal')">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Insumo</h3>
+                <button onclick="closeModal('estoqueModal')" class="text-gray-400 hover:text-gray-600">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <form onsubmit="salvarEstoque(event)">
+                <input type="hidden" id="estoque-id">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Nome do Insumo *</label>
+                    <input type="text" id="estoque-nome" required class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Ex: Esmalte rosa pastel">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Categoria *</label>
+                    <select id="estoque-categoria" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Esmalte">Esmalte</option>
+                        <option value="Licha">Licha</option>
+                        <option value="Algodão">Algodão</option>
+                        <option value="Acetona">Acetona</option>
+                        <option value="Base">Base</option>
+                        <option value="Top Coat">Top Coat</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Quantidade *</label>
+                    <input type="number" id="estoque-quantidade" required min="0" class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="0">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Unidade *</label>
+                    <select id="estoque-unidade" required class="w-full px-4 py-2 border border-gray-300 rounded-lg">
+                        <option value="">Selecione a unidade</option>
+                        <option value="Unidade">Unidade</option>
+                        <option value="Caixa">Caixa</option>
+                        <option value="Pacote">Pacote</option>
+                        <option value="Litro">Litro</option>
+                        <option value="Ml">Ml</option>
+                    </select>
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeModal('estoqueModal')" class="flex-1 btn-secondary px-4 py-2 rounded-lg font-medium">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 btn-primary px-4 py-2 rounded-lg font-medium">
+                        Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Data Storage
+        let manicures = [];
+        let clientes = [];
+        let horarios = [];
+        let agendamentos = [];
+        let estoque = [];
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            limparFormulario(modalId);
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        function closeModalOnBackground(event, modalId) {
+            if (event.target.id === modalId) {
+                closeModal(modalId);
+            }
+        }
+
+        // Navigation
+        function showSection(sectionName) {
+            document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(sectionName + '-section').classList.remove('hidden');
+            
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('sidebar-active'));
+            event.target.closest('.menu-item').classList.add('sidebar-active');
+            
+            atualizarDashboard();
+        }
+
+        // Manicures CRUD
+        function salvarManicure(e) {
+            e.preventDefault();
+            const id = document.getElementById('manicure-id').value;
+            const manicure = {
+                id: id || Date.now(),
+                nome: document.getElementById('manicure-nome').value,
+                telefone: document.getElementById('manicure-telefone').value,
+                especialidade: document.getElementById('manicure-especialidade').value
+            };
+
+            if (id) {
+                const index = manicures.findIndex(m => m.id == id);
+                manicures[index] = manicure;
+            } else {
+                manicures.push(manicure);
+            }
+
+            closeModal('manicureModal');
+            renderManicures();
+            atualizarSelects();
+            atualizarDashboard();
+        }
+
+        function editarManicure(id) {
+            const manicure = manicures.find(m => m.id == id);
+            document.getElementById('manicure-id').value = manicure.id;
+            document.getElementById('manicure-nome').value = manicure.nome;
+            document.getElementById('manicure-telefone').value = manicure.telefone;
+            document.getElementById('manicure-especialidade').value = manicure.especialidade;
+            openModal('manicureModal');
+        }
+
+        function deletarManicure(id) {
+            if (confirm('Tem certeza que deseja deletar esta manicure?')) {
+                manicures = manicures.filter(m => m.id != id);
+                renderManicures();
+                atualizarSelects();
+                atualizarDashboard();
+            }
+        }
+
+        function renderManicures() {
+            const tbody = document.getElementById('manicures-tbody');
+            const empty = document.getElementById('manicures-empty');
+            
+            tbody.innerHTML = '';
+            
+            if (manicures.length === 0) {
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                manicures.forEach(m => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'table-row';
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 text-sm text-gray-900">${m.nome}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${m.telefone}</td>
+                        <td class="px-6 py-4 text-sm"><span class="badge-purple px-3 py-1 rounded-full text-xs font-medium">${m.especialidade}</span></td>
+                        <td class="px-6 py-4 text-sm">
+                            <button onclick="editarManicure(${m.id})" class="text-purple-600 hover:text-purple-800 mr-3">
+                                <span class="material-icons text-lg">edit</span>
+                            </button>
+                            <button onclick="deletarManicure(${m.id})" class="text-red-600 hover:text-red-800">
+                                <span class="material-icons text-lg">delete</span>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        // Clientes CRUD
+        function salvarCliente(e) {
+            e.preventDefault();
+            const id = document.getElementById('cliente-id').value;
+            const cliente = {
+                id: id || Date.now(),
+                nome: document.getElementById('cliente-nome').value,
+                email: document.getElementById('cliente-email').value,
+                telefone: document.getElementById('cliente-telefone').value
+            };
+
+            if (id) {
+                const index = clientes.findIndex(c => c.id == id);
+                clientes[index] = cliente;
+            } else {
+                clientes.push(cliente);
+            }
+
+            closeModal('clienteModal');
+            renderClientes();
+            atualizarSelects();
+            atualizarDashboard();
+        }
+
+        function editarCliente(id) {
+            const cliente = clientes.find(c => c.id == id);
+            document.getElementById('cliente-id').value = cliente.id;
+            document.getElementById('cliente-nome').value = cliente.nome;
+            document.getElementById('cliente-email').value = cliente.email;
+            document.getElementById('cliente-telefone').value = cliente.telefone;
+            openModal('clienteModal');
+        }
+
+        function deletarCliente(id) {
+            if (confirm('Tem certeza que deseja deletar este cliente?')) {
+                clientes = clientes.filter(c => c.id != id);
+                renderClientes();
+                atualizarSelects();
+                atualizarDashboard();
+            }
+        }
+
+        function renderClientes() {
+            const tbody = document.getElementById('clientes-tbody');
+            const empty = document.getElementById('clientes-empty');
+            
+            tbody.innerHTML = '';
+            
+            if (clientes.length === 0) {
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                clientes.forEach(c => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'table-row';
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 text-sm text-gray-900">${c.nome}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${c.email}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${c.telefone}</td>
+                        <td class="px-6 py-4 text-sm">
+                            <button onclick="editarCliente(${c.id})" class="text-purple-600 hover:text-purple-800 mr-3">
+                                <span class="material-icons text-lg">edit</span>
+                            </button>
+                            <button onclick="deletarCliente(${c.id})" class="text-red-600 hover:text-red-800">
+                                <span class="material-icons text-lg">delete</span>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        // Horários CRUD
+        function salvarHorario(e) {
+            e.preventDefault();
+            const id = document.getElementById('horario-id').value;
+            const horario = {
+                id: id || Date.now(),
+                manicure: document.getElementById('horario-manicure').value,
+                dia: document.getElementById('horario-dia').value,
+                inicio: document.getElementById('horario-inicio').value,
+                fim: document.getElementById('horario-fim').value
+            };
+
+            if (id) {
+                const index = horarios.findIndex(h => h.id == id);
+                horarios[index] = horario;
+            } else {
+                horarios.push(horario);
+            }
+
+            closeModal('horarioModal');
+            renderHorarios();
+            atualizarDashboard();
+        }
+
+        function editarHorario(id) {
+            const horario = horarios.find(h => h.id == id);
+            document.getElementById('horario-id').value = horario.id;
+            document.getElementById('horario-manicure').value = horario.manicure;
+            document.getElementById('horario-dia').value = horario.dia;
+            document.getElementById('horario-inicio').value = horario.inicio;
+            document.getElementById('horario-fim').value = horario.fim;
+            openModal('horarioModal');
+        }
+
+        function deletarHorario(id) {
+            if (confirm('Tem certeza que deseja deletar este horário?')) {
+                horarios = horarios.filter(h => h.id != id);
+                renderHorarios();
+                atualizarDashboard();
+            }
+        }
+
+        function renderHorarios() {
+            const tbody = document.getElementById('horarios-tbody');
+            const empty = document.getElementById('horarios-empty');
+            
+            tbody.innerHTML = '';
+            
+            if (horarios.length === 0) {
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                horarios.forEach(h => {
+                    const nomeManicure = manicures.find(m => m.id == h.manicure)?.nome || 'N/A';
+                    const tr = document.createElement('tr');
+                    tr.className = 'table-row';
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 text-sm text-gray-900">${nomeManicure}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${h.dia}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${h.inicio}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${h.fim}</td>
+                        <td class="px-6 py-4 text-sm">
+                            <button onclick="editarHorario(${h.id})" class="text-purple-600 hover:text-purple-800 mr-3">
+                                <span class="material-icons text-lg">edit</span>
+                            </button>
+                            <button onclick="deletarHorario(${h.id})" class="text-red-600 hover:text-red-800">
+                                <span class="material-icons text-lg">delete</span>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        // Agendamentos CRUD
+        function salvarAgendamento(e) {
+            e.preventDefault();
+            const id = document.getElementById('agendamento-id').value;
+            const agendamento = {
+                id: id || Date.now(),
+                cliente: document.getElementById('agendamento-cliente').value,
+                manicure: document.getElementById('agendamento-manicure').value,
+                data: document.getElementById('agendamento-data').value,
+                horario: document.getElementById('agendamento-horario').value,
+                status: 'Confirmado'
+            };
+
+            if (id) {
+                const index = agendamentos.findIndex(a => a.id == id);
+                agendamentos[index] = agendamento;
+            } else {
+                agendamentos.push(agendamento);
+            }
+
+            closeModal('agendamentoModal');
+            renderAgendamentos();
+            atualizarDashboard();
+        }
+
+        function editarAgendamento(id) {
+            const agendamento = agendamentos.find(a => a.id == id);
+            document.getElementById('agendamento-id').value = agendamento.id;
+            document.getElementById('agendamento-cliente').value = agendamento.cliente;
+            document.getElementById('agendamento-manicure').value = agendamento.manicure;
+            document.getElementById('agendamento-data').value = agendamento.data;
+            document.getElementById('agendamento-horario').value = agendamento.horario;
+            openModal('agendamentoModal');
+        }
+
+        function deletarAgendamento(id) {
+            if (confirm('Tem certeza que deseja cancelar este agendamento?')) {
+                agendamentos = agendamentos.filter(a => a.id != id);
+                renderAgendamentos();
+                atualizarDashboard();
+            }
+        }
+
+        function renderAgendamentos() {
+            const tbody = document.getElementById('agendamentos-tbody');
+            const empty = document.getElementById('agendamentos-empty');
+            
+            tbody.innerHTML = '';
+            
+            if (agendamentos.length === 0) {
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                agendamentos.forEach(a => {
+                    const nomeCliente = clientes.find(c => c.id == a.cliente)?.nome || 'N/A';
+                    const nomeManicure = manicures.find(m => m.id == a.manicure)?.nome || 'N/A';
+                    const tr = document.createElement('tr');
+                    tr.className = 'table-row';
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 text-sm text-gray-900">${nomeCliente}</td>
+                        <td class="px-6 py-4 text-sm text-gray-900">${nomeManicure}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${new Date(a.data).toLocaleDateString('pt-BR')}</td>
+                        <td class="px-6 py-4 text-sm text-gray-600">${a.horario}</td>
+                        <td class="px-6 py-4 text-sm">
+                            <span class="badge-purple px-3 py-1 rounded-full text-xs font-medium">${a.status}</span>
+                        </td>
+                        <td class="px-6 py-4 text-sm">
+                            <button onclick="editarAgendamento(${a.id})" class="text-purple-600 hover:text-purple-800 mr-3">
+                                <span class="material-icons text-lg">edit</span>
+                            </button>
+                            <button onclick="deletarAgendamento(${a.id})" class="text-red-600 hover:text-red-800">
+                                <span class="material-icons text-lg">delete</span>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+
+        // Estoque CRUD
+        function salvarEstoque(e) {
+            e.preventDefault();
+            const id = document.getElementById('estoque-id').value;
+            const item = {
+                id: id || Date.now(),
+                nome: document.getElementById('estoque-nome').value,
+                categoria: document.getElementById('estoque-categoria').value,
+                quantidade: parseInt(document.getElementById('estoque-quantidade').value),
+                unidade: document.getElementById('estoque-unidade').value
+            };
+
+            if (id) {
+                const index = estoque.findIndex(e => e.id == id);
+                estoque[index] = item;
+            } else {
+                estoque.push(item);
+            }
+
+            closeModal('estoqueModal');
+            renderEstoque();
+            atualizarDashboard();
+        }
+
+        function editarEstoque(id) {
+            const item = estoque.find(e => e.id == id);
+            document.getElementById('estoque-id').value = item.id;
+            document.getElementById('estoque-nome').value = item.nome;
+            document.getElementById('estoque-categoria').value = item.categoria;
+            document.getElementById('estoque-quantidade').value = item.quantidade;
+            document.getElementById('estoque-unidade').value = item.unidade;
+            openModal('estoqueModal');
+        }
+
+        function deletarEstoque(id) {
+            if (confirm('Tem certeza que deseja deletar este item?')) {
+                estoque = estoque.filter(e => e.id != id);
+                renderEstoque();
+                atualizarDashboard();
+            }
+        }
+
+        function renderEstoque() {
+            const container = document.getElementById('estoque-list');
+            const empty = document.getElementById('estoque-empty');
+            
+            container.innerHTML = '';
+            
+            if (estoque.length === 0) {
+                empty.style.display = 'block';
+            } else {
+                empty.style.display = 'none';
+                estoque.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'card p-6';
+                    const corCategoria = {
+                        'Esmalte': 'bg-pink-100',
+                        'Licha': 'bg-yellow-100',
+                        'Algodão': 'bg-blue-100',
+                        'Acetona': 'bg-red-100',
+                        'Base': 'bg-purple-100',
+                        'Top Coat': 'bg-green-100',
+                        'Outro': 'bg-gray-100'
+                    };
+                    
+                    card.innerHTML = `
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-semibold text-gray-800">${item.nome}</h4>
+                                <div class="flex gap-2">
+                                    <button onclick="editarEstoque(${item.id})" class="text-purple-600 hover:text-purple-800">
+                                        <span class="material-icons text-lg">edit</span>
+                                    </button>
+                                    <button onclick="deletarEstoque(${item.id})" class="text-red-600 hover:text-red-800">
+                                        <span class="material-icons text-lg">delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <span class="inline-block ${corCategoria[item.categoria]} text-xs font-medium px-3 py-1 rounded-full">${item.categoria}</span>
+                        </div>
+                        <div class="border-t pt-4">
+                            <p class="text-2xl font-bold text-purple-600">${item.quantidade} ${item.unidade}</p>
+                            <p class="text-xs text-gray-500 mt-2">Quantidade em estoque</p>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+        }
+
+        // Update Select Options
+        function atualizarSelects() {
+            const selectManicura = document.getElementById('horario-manicure');
+            const selectClienteAgend = document.getElementById('agendamento-cliente');
+            const selectManicuraAgend = document.getElementById('agendamento-manicure');
+            
+            selectManicura.innerHTML = '<option value="">Selecione uma manicure</option>';
+            selectClienteAgend.innerHTML = '<option value="">Selecione um cliente</option>';
+            selectManicuraAgend.innerHTML = '<option value="">Selecione uma manicure</option>';
+            
+            manicures.forEach(m => {
+                selectManicura.innerHTML += `<option value="${m.id}">${m.nome}</option>`;
+                selectManicuraAgend.innerHTML += `<option value="${m.id}">${m.nome}</option>`;
+            });
+            
+            clientes.forEach(c => {
+                selectClienteAgend.innerHTML += `<option value="${c.id}">${c.nome}</option>`;
+            });
+        }
+
+        // Clear Form
+        function limparFormulario(modalId) {
+            const form = document.querySelector(`#${modalId} form`);
+            if (form) form.reset();
+            document.getElementById(modalId.replace('Modal', '-id')).value = '';
+        }
+
+        // Update Dashboard
+        function atualizarDashboard() {
+            document.getElementById('total-manicures').textContent = manicures.length;
+            document.getElementById('total-clientes').textContent = clientes.length;
+            document.getElementById('itens-estoque').textContent = estoque.length;
+            
+            const hoje = new Date().toISOString().split('T')[0];
+            const agendamentosHoje = agendamentos.filter(a => a.data === hoje).length;
+            document.getElementById('agendamentos-hoje').textContent = agendamentosHoje;
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Deseja realmente sair?')) {
+                alert('Você foi desconectado. Até logo!');
+            }
+        }
+
+        // Initialize
+        atualizarDashboard();
+    </script>
+</body>
+</html>

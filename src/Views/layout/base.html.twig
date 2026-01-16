@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salão de Beleza - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-icons {
+            font-feature-settings: 'liga';
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(139, 92, 246, 0.15);
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-gradient-to-b from-purple-900 to-purple-800 text-white flex flex-col shadow-xl">
+            <div class="p-6 border-b border-purple-700">
+                <div class="flex items-center gap-3">
+                    <span class="material-icons text-3xl">spa</span>
+                    <div>
+                        <h1 class="text-xl font-bold">BeautyBook</h1>
+                        <p class="text-xs text-purple-200">Manicure System</p>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="dashboard.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-purple-700 text-white">
+                    <span class="material-icons">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a href="manicures/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">people</span>
+                    <span>Manicures</span>
+                </a>
+                
+                <a href="clientes/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">person</span>
+                    <span>Clientes</span>
+                </a>
+                
+                <a href="horarios/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">schedule</span>
+                    <span>Horários</span>
+                </a>
+                
+                <a href="agendamentos/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">event</span>
+                    <span>Agendamentos</span>
+                </a>
+                
+                <a href="estoque/index.html" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <span class="material-icons">inventory_2</span>
+                    <span>Estoque</span>
+                </a>
+            </nav>
+
+            <div class="p-4 border-t border-purple-700">
+                <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 rounded-lg bg-red-600 hover:bg-red-700 transition font-medium">
+                    <span class="material-icons">logout</span>
+                    <span>Sair</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        {% block content %}
+        <h1>Bemv-vindo ao BeautyBook</h1>
+        {% endblock %}
+    </div>
+
+    <script>
+        // Data Storage
+        function getStorageData(key) {
+            return JSON.parse(localStorage.getItem(key) || '[]');
+        }
+
+        // Limpar dados inconsistentes
+        function limparDadosInconsistentes() {
+            const agendamentos = getStorageData('agendamentos');
+            // Verificar se há dados com estrutura antiga (cliente e manicure ao invés de clienteId e manicureId)
+            const dadosAntigos = agendamentos.some(a => a.cliente !== undefined || a.manicure !== undefined);
+            if (dadosAntigos) {
+                localStorage.removeItem('agendamentos');
+                console.log('Dados de agendamentos inconsistentes removidos');
+            }
+        }
+
+        // Inicializar dados de exemplo se não existirem
+        function inicializarDadosExemplo() {
+            // Verificar se já existem dados
+            if (getStorageData('agendamentos').length === 0) {
+                // Adicionar dados de exemplo
+                const agendamentosExemplo = [
+                    {
+                        id: 1,
+                        clienteId: 1,
+                        manicureId: 1,
+                        data: new Date(Date.now() + 86400000).toISOString().split('T')[0], // amanhã
+                        horario: '10:00',
+                        servico: 'Esmaltação Simples',
+                        status: 'agendado'
+                    },
+                    {
+                        id: 2,
+                        clienteId: 2,
+                        manicureId: 2,
+                        data: new Date(Date.now() + 172800000).toISOString().split('T')[0], // depois de amanhã
+                        horario: '14:30',
+                        servico: 'Unha de Gel',
+                        status: 'agendado'
+                    },
+                    {
+                        id: 3,
+                        clienteId: 3,
+                        manicureId: 1,
+                        data: new Date().toISOString().split('T')[0], // hoje
+                        horario: '16:00',
+                        servico: 'Decoração',
+                        status: 'agendado'
+                    }
+                ];
+
+                const clientesExemplo = [
+                    { id: 1, nome: 'Maria Silva', telefone: '(11) 99999-1111', email: 'maria@email.com' },
+                    { id: 2, nome: 'Ana Santos', telefone: '(11) 99999-2222', email: 'ana@email.com' },
+                    { id: 3, nome: 'Carla Oliveira', telefone: '(11) 99999-3333', email: 'carla@email.com' }
+                ];
+
+                const manicuresExemplo = [
+                    { id: 1, nome: 'Júlia Costa', telefone: '(11) 88888-1111', especialidade: 'Nail Art' },
+                    { id: 2, nome: 'Fernanda Lima', telefone: '(11) 88888-2222', especialidade: 'Unha de Gel' }
+                ];
+
+                const estoqueExemplo = [
+                    { id: 1, nome: 'Esmalte Vermelho', quantidade: 3, unidade: 'unidades', preco: 12.50 },
+                    { id: 2, nome: 'Base Incolor', quantidade: 8, unidade: 'unidades', preco: 15.00 },
+                    { id: 3, nome: 'Lixa para Unhas', quantidade: 2, unidade: 'pacotes', preco: 5.00 }
+                ];
+
+                localStorage.setItem('agendamentos', JSON.stringify(agendamentosExemplo));
+                localStorage.setItem('clientes', JSON.stringify(clientesExemplo));
+                localStorage.setItem('manicures', JSON.stringify(manicuresExemplo));
+                localStorage.setItem('estoque', JSON.stringify(estoqueExemplo));
+            }
+        }
+
+        // Update Dashboard
+        function atualizarDashboard() {
+            const manicures = getStorageData('manicures');
+            const clientes = getStorageData('clientes');
+            const agendamentos = getStorageData('agendamentos');
+            const estoque = getStorageData('estoque');
+            
+            document.getElementById('total-manicures').textContent = manicures.length;
+            document.getElementById('total-clientes').textContent = clientes.length;
+            document.getElementById('itens-estoque').textContent = estoque.length;
+            
+            // Agendamentos hoje
+            const hoje = new Date().toISOString().split('T')[0];
+            const agendamentosHoje = agendamentos.filter(a => a.data === hoje).length;
+            document.getElementById('agendamentos-hoje').textContent = agendamentosHoje;
+            
+            // Próximos agendamentos
+            const proximosAgendamentos = agendamentos
+                .filter(a => new Date(a.data) >= new Date())
+                .sort((a, b) => new Date(a.data) - new Date(b.data))
+                .slice(0, 5);
+            
+            const proximosContainer = document.getElementById('proximos-agendamentos');
+            if (proximosAgendamentos.length > 0) {
+                proximosContainer.innerHTML = proximosAgendamentos.map(a => {
+                    const cliente = clientes.find(c => c.id == a.clienteId)?.nome || 'N/A';
+                    const manicure = manicures.find(m => m.id == a.manicureId)?.nome || 'N/A';
+                    return `
+                        <div class="flex items-center justify-between p-3 bg-purple-50 rounded-lg">
+                            <div class="flex-1">
+                                <p class="font-medium text-gray-900">${cliente}</p>
+                                <p class="text-sm text-gray-600">${manicure} • ${new Date(a.data).toLocaleDateString('pt-BR')} ${a.horario}</p>
+                            </div>
+                            <span class="material-icons text-purple-400">arrow_forward_ios</span>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Estoque baixo (menos de 5 itens)
+            const estoqueBaixo = estoque.filter(item => item.quantidade < 5);
+            const estoqueBaixoContainer = document.getElementById('estoque-baixo');
+            if (estoqueBaixo.length > 0) {
+                estoqueBaixoContainer.innerHTML = estoqueBaixo.map(item => `
+                    <div class="flex items-center justify-between p-3 bg-red-50 rounded-lg">
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-900">${item.nome}</p>
+                            <p class="text-sm text-red-600">Apenas ${item.quantidade} ${item.unidade} restante(s)</p>
+                        </div>
+                        <span class="material-icons text-red-400">warning</span>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Logout
+        function logout() {
+            if (confirm('Deseja realmente sair?')) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            limparDadosInconsistentes();
+            inicializarDadosExemplo();
+            atualizarDashboard();
+        });
+    </script>
+</body>
+</html>
