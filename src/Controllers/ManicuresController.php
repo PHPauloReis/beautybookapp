@@ -2,19 +2,24 @@
 
 namespace App\Controllers;
 
-use Laminas\Diactoros\Response;
+use App\Models\ManicureModel;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class ManicuresController extends BaseController
 {
-    public function index(ServerRequestInterface $request): ResponseInterface
+    private ManicureModel $manicureModel;
+
+    public function __construct()
     {
-        return $this->render('index');
+        parent::__construct();
+        $this->manicureModel = new ManicureModel();
     }
 
-    public function exemplo2(ServerRequestInterface $request): ResponseInterface
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->render('exemplo2');
+        $manicures = $this->manicureModel->obterTodas();
+
+        return $this->render('index', compact('manicures'));
     }
 }
