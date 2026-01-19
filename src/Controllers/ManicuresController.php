@@ -20,6 +20,11 @@ class ManicuresController extends BaseController
     {
         $manicures = $this->manicureModel->obterTodas();
 
-        return $this->render('index', compact('manicures'));
+        return $this->render('manicures/index', compact('manicures'));
+    }
+
+    public function cadastrar(ServerRequestInterface $request): ResponseInterface
+    {
+        return $this->render('manicures/form');
     }
 }

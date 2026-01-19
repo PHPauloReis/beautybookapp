@@ -1,0 +1,87 @@
+{% extends "layout/base.html.twig" %}
+
+{% block content %}
+	<!-- Main Content -->
+	<main class="flex-1 overflow-auto">
+		<div class="p-8">
+			<div class="flex justify-between items-center mb-6">
+				<div>
+					<h2 class="text-3xl font-bold text-gray-800">Manicures</h2>
+					<p class="text-gray-600 text-sm mt-1">Gerenciar profissionais</p>
+				</div>
+				<a href="/cadastrar" class="bg-violet-500 hover:bg-purple-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 font-medium transition-all duration-300">
+					<span class="material-icons text-xl">add</span>
+					Nova Manicure
+				</a>
+			</div>
+
+			<!-- Formulário de Busca -->
+			<div class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 mb-6">
+				<div class="p-4">
+					<div class="flex gap-2">
+						<div class="relative flex-1">
+							<input type="text" id="search-input" placeholder="Buscar manicure por nome, telefone ou especialidade..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 outline-none transition-all duration-200" onkeypress="handleEnterKey(event)">
+							<span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">search</span>
+						</div>
+						<button onclick="filtrarManicures()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 font-medium transition-all duration-200">
+							<span class="material-icons text-sm">search</span>
+							Buscar
+						</button>
+						<button onclick="limparBusca()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-1 font-medium transition-all duration-200">
+							<span class="material-icons text-sm">clear</span>
+							Limpar
+						</button>
+					</div>
+					<p class="text-sm text-gray-500 mt-2">Digite sua busca e clique no botão "Buscar" ou pressione Enter</p>
+				</div>
+			</div>
+
+			<div id="manicures-list" class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
+				{% if manicures is not empty %}
+					<table class="w-full">
+						<thead class="bg-purple-50">
+							<tr>
+								<th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Nome</th>
+								<th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Telefone</th>
+								<th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Especialidade</th>
+								<th class="w-[150px] px-6 py-3 text-left text-sm font-semibold text-gray-700">Ações</th>
+							</tr>
+						</thead>
+						<tbody id="manicures-tbody">
+							{% for manicure in manicures %}
+								<tr>
+									<td class="px-6 py-3 text-sm text-gray-700">{{ manicure.nome }}</td>
+									<td class="px-6 py-3 text-sm text-gray-700">{{ manicure.telefone }}</td>
+									<td class="px-6 py-3 text-sm text-gray-700">{{ manicure.especialidade }}</td>
+									<td class="px-6 py-3 text-sm text-gray-700">
+										<a href="form.html" class="bg-violet-500 hover:bg-purple-700 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
+											<span class="material-icons">edit</span>
+											Editar
+										</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					<div id="manicures-empty" class="p-8 text-center text-gray-500">
+						<span class="material-icons text-5xl mb-3 block text-gray-300">people</span>
+						<p class="mb-4">Nenhuma manicure cadastrada</p>
+						<a href="/cadastrar" class="bg-violet-500 hover:bg-purple-700 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
+							<span class="material-icons">add</span>
+							Cadastrar primeira manicure
+						</a>
+					</div>
+				{% endif %}
+			</div>
+			<!-- Paginação -->
+			<div id="pagination" class="flex justify-center mt-6">
+				<div class="flex items-center gap-2">
+					<button onclick="irParaPrimeiraPagina()" class="px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-purple-50 text-sm font-medium transition-all duration-200" id="btn-primeira">
+						<<-Primeira</button><buttononclick="irParaPaginaAnterior()"class="px-3py-2bg-whiteborderborder-gray-300rounded-lghover:bg-purple-50text-smfont-mediumtransition-allduration-200"id="btn-anterior"><-Anterior</button><spanclass="px-4py-2text-smtext-gray-600"id="info-pagina">Página1de1</span><buttononclick="irParaProximaPagina()"class="px-3py-2bg-whiteborderborder-gray-300rounded-lghover:bg-purple-50text-smfont-mediumtransition-allduration-200"id="btn-proxima">Próxima-></button><buttononclick="irParaUltimaPagina()"class="px-3py-2bg-whiteborderborder-gray-300rounded-lghover:bg-purple-50text-smfont-mediumtransition-allduration-200"id="btn-ultima">Última->>
+					</button>
+				</div>
+			</div>
+		</div>
+	</main>
+{% endblock %}
