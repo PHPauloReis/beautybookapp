@@ -33,4 +33,9 @@ class BaseModel
 
         return $registros;
     }
+
+    public function gravar(array $dados): void
+    {
+        $this->connection->insert($this->table, $dados);
+    }
 }

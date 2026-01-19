@@ -23,8 +23,15 @@ class ManicuresController extends BaseController
         return $this->render('manicures/index', compact('manicures'));
     }
 
-    public function cadastrar(ServerRequestInterface $request): ResponseInterface
+    public function exibirForm(ServerRequestInterface $request): ResponseInterface
     {
         return $this->render('manicures/form');
     }
-}
+
+    public function gravar(ServerRequestInterface $request): ResponseInterface
+    {
+        $dados = $request->getParsedBody();
+        $this->manicureModel->gravar($dados);
+        return $this->render('manicures/index');
+    }
+}   
