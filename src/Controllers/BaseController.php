@@ -18,7 +18,7 @@ class BaseController
         $this->loader = new FilesystemLoader(__DIR__ . '/../Views');
 
         $this->twig = new Environment($this->loader, [
-            'cache' => __DIR__ . '/../cache',
+            'cache' => __DIR__ . '/../../storage/cache',
             'debug' => true,
             'auto_reload' => true,
         ]);
