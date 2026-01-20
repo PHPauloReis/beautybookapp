@@ -10,6 +10,7 @@ class BaseModel
     protected Connection $connection;
 
     protected string $table = "";
+    protected array $fillable = ["nome", "telefone"];
 
     public function __construct()
     {
@@ -36,6 +37,22 @@ class BaseModel
 
     public function gravar(array $dados): void
     {
-        $this->connection->insert($this->table, $dados);
+        $dadosFiltrados = $this->filtrarCampos($dados);
+
+        $this->connection->insert($this->table, $dadosFiltrados);
+    }
+
+    public function excluir(int $id): void
+    {
+        $this->connection->delete($this->table, ["id" => $id]);
+    }
+
+    protected function filtrarCampos(array $dados): array
+    {
+        return array_filter(
+            $dados, 
+            fn($key) => in_array($key, $this->fillable), 
+            ARRAY_FILTER_USE_KEY
+        );
     }
 }

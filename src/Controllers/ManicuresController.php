@@ -34,4 +34,11 @@ class ManicuresController extends BaseController
         $this->manicureModel->gravar($dados);
         return $this->render('manicures/index');
     }
+
+    public function excluir(ServerRequestInterface $request): ResponseInterface
+    {
+        $id = $request->getAttribute('id');
+        $this->manicureModel->excluir($id);
+        return $this->render('manicures/index');
+    }
 }   

@@ -54,10 +54,16 @@
 									<td class="px-6 py-3 text-sm text-gray-700">{{ manicure.telefone }}</td>
 									<td class="px-6 py-3 text-sm text-gray-700">{{ manicure.especialidade }}</td>
 									<td class="px-6 py-3 text-sm text-gray-700">
-										<a href="form.html" class="bg-violet-500 hover:bg-purple-700 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
-											<span class="material-icons">edit</span>
-											Editar
-										</a>
+										<div class="flex gap-2">
+											<a href="/editar/{{ manicure.id }}" class="bg-violet-500 hover:bg-purple-700 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
+												<span class="material-icons">edit</span>
+												Editar
+											</a>
+											<a href="/excluir/{{ manicure.id }}" class="bg-red-500 hover:bg-red-700 text-white px-4 py-2 rounded-lg inline-flex items-center gap-2 transition-all duration-300">
+												<span class="material-icons">delete</span>
+												Excluir
+											</a>
+										</div>
 									</td>
 								</tr>
 							{% endfor %}
