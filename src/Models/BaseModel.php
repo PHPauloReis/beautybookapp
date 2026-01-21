@@ -35,6 +35,21 @@ class BaseModel
         return $registros;
     }
 
+    public function obterTodasComFiltro(string $busca): array
+    {
+        $registros = $this->connection->createQueryBuilder()
+            ->select("*")
+            ->from($this->table)
+            ->where("nome LIKE :busca")
+            ->orWhere("telefone LIKE :busca")
+            ->orWhere("especialidade LIKE :busca")
+            ->setParameter("busca", "%" . $busca . "%")
+            ->executeQuery()
+            ->fetchAllAssociative();
+
+        return $registros;
+    }
+
     public function gravar(array $dados): void
     {
         $dadosFiltrados = $this->filtrarCampos($dados);

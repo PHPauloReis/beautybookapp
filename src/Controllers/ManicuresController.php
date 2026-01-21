@@ -29,7 +29,13 @@ class ManicuresController extends BaseController
     {
         $flashMessage = FlashMessage::get();
 
-        $manicures = $this->manicureModel->obterTodas();
+        $busca = $request->getQueryParams()['search'] ?? '';
+
+        if (!empty($busca)) {
+            $manicures = $this->manicureModel->obterTodasComFiltro($busca);
+        } else {
+            $manicures = $this->manicureModel->obterTodas();
+        }
 
         return $this->render('manicures/index', compact('manicures', 'flashMessage'));
     }
@@ -38,7 +44,9 @@ class ManicuresController extends BaseController
     {
         $flashMessage = FlashMessage::get();
 
-        return $this->render('manicures/form', compact('flashMessage'));
+        $errorBag = unserialize($flashMessage['mensagem'] ?? '');
+
+        return $this->render('manicures/form', compact('flashMessage', 'errorBag'));
     }
 
     public function gravar(ServerRequestInterface $request): ResponseInterface
@@ -63,13 +71,13 @@ class ManicuresController extends BaseController
                                 ->notEmpty()
                                 ->setTemplate('O campo telefone não deve estar vazio!')
                                 ->length(3, 100)
-                                ->setTemplate('O campo nome deve ter entre 10 e 100 caracteres!'),
+                                ->setTemplate('O campo telefone deve ter entre 10 e 100 caracteres!'),
         ];
 
         $erros = $validador->validate($dados, $regrasDeValidacao);
 
         if (!empty($erros)) {
-            FlashMessage::set('erro', 'Os dados informado para essa manicure parecem não ser válidos!');
+            FlashMessage::set('errorBag', serialize($erros));
             return new RedirectResponse('/cadastrar');
         }
 

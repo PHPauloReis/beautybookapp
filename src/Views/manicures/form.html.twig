@@ -22,6 +22,16 @@
 				</div>
 			{% endif %}
 
+			{% if errorBag is not empty %}
+				<div class="p-4 mb-6 bg-red-500 text-white rounded-xl">
+					<ul>
+						{% for key, error in errorBag %}
+							<li>{{ error[key] }}</li>
+						{% endfor %}
+					</ul>
+				</div>
+			{% endif %}
+
 			<!-- Form -->
 			<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-12 w-full">
 				<form method="POST" action="/cadastrar">
