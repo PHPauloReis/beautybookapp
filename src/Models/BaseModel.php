@@ -10,7 +10,7 @@ class BaseModel
     protected Connection $connection;
 
     protected string $table = "";
-    protected array $fillable = ["nome", "telefone"];
+    protected array $fillable = [];
 
     public function __construct()
     {

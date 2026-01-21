@@ -16,6 +16,12 @@
 				</div>
 			</div>
 
+			{% if flashMessage is not empty and flashMessage.tipo == 'erro' %}
+				<div class="p-4 mb-6 bg-red-500 text-white rounded-xl">
+					{{ flashMessage.mensagem }}
+				</div>
+			{% endif %}
+
 			<!-- Form -->
 			<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-12 w-full">
 				<form method="POST" action="/cadastrar">

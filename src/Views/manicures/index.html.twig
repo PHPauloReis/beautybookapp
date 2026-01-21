@@ -36,6 +36,12 @@
 				</div>
 			</div>
 
+			{% if flashMessage is not empty and flashMessage.tipo == 'sucesso' %}
+				<div class="p-4 mb-6 bg-green-500 text-white rounded-xl">
+					{{ flashMessage.mensagem }}
+				</div>
+			{% endif %}
+
 			<div id="manicures-list" class="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
 				{% if manicures is not empty %}
 					<table class="w-full">
