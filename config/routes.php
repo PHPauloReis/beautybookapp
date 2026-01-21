@@ -12,3 +12,4 @@ $router->map('POST','/cadastrar', [ManicuresController::class, 'gravar']);
 $router->map('DELETE','/excluir/{id}', [ManicuresController::class, 'excluir']);
 
 $router->map('GET','/login', [AutenticacaoController::class, 'exibirForm']);
+$router->map('POST','/login', [AutenticacaoController::class, 'logar']);
