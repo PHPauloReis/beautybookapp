@@ -46,4 +46,28 @@ class AutenticacaoController extends BaseController
 
         return new RedirectResponse('/');
     }
+
+    public function exibirFormEsqueciSenha(ServerRequestInterface $request): ResponseInterface
+    {
+        $flashMessage = FlashMessage::get();
+
+        return $this->render('autenticacao/esqueci_minha_senha', compact('flashMessage'));
+    }
+
+    public function enviarLinkRecuperacao(ServerRequestInterface $request): ResponseInterface
+    {
+        $dados = $request->getParsedBody();
+
+        $email = $dados['email'];
+
+        try {
+            $usuarioSelecionado = $this->usuarioModel->obterPorEmail($email);
+        } catch (\Exception $e) {
+            FlashMessage::set("sucesso", "Link de recuperação enviado com sucesso");
+            return new RedirectResponse("/esqueci-minha-senha");
+        }
+
+        FlashMessage::set("sucesso", "Link de recuperação enviado com sucesso");
+        return new RedirectResponse("/esqueci-minha-senha");
+    }
 }
