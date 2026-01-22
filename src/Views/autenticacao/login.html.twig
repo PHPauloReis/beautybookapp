@@ -15,13 +15,15 @@
 		</div>
 
 		<!-- Error Alert -->
-		<div class="hidden mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center gap-3">
-			<span class="material-icons text-red-600" style="font-size: 20px;">error</span>
-			<div class="flex-1">
-				<p class="text-sm font-medium">Credenciais inválidas!</p>
-				<p class="text-xs text-red-600 mt-1">E-mail ou senha incorretos. Tente novamente.</p>
+		{% if flashMessage is not empty and flashMessage.tipo == 'erro' %}
+			<div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center gap-3">
+				<span class="material-icons text-red-600" style="font-size: 20px;">error</span>
+				<div class="flex-1">
+					<p class="text-sm font-medium">Credenciais inválidas!</p>
+					<p class="text-xs text-red-600 mt-1">E-mail ou senha incorretos. Tente novamente.</p>
+				</div>
 			</div>
-		</div>
+		{% endif %}
 
 		<form
 			method="post" action="/login">

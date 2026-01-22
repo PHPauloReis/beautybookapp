@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\UsuarioModel;
+use App\Support\FlashMessage;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -19,7 +20,9 @@ class AutenticacaoController extends BaseController
 
     public function exibirForm(ServerRequestInterface $request): ResponseInterface
     {
-        return $this->render('autenticacao/login');
+        $flashMessage = FlashMessage::get();
+
+        return $this->render('autenticacao/login', compact('flashMessage'));
     }
 
     public function logar(ServerRequestInterface $request): ResponseInterface
@@ -32,14 +35,13 @@ class AutenticacaoController extends BaseController
         try {
             $usuarioSelecionado = $this->usuarioModel->obterPorEmail($email);
 
-            if(password_verify($senha, $usuarioSelecionado['senha'])) {
-                echo "Logado com sucesso";
-            } else {
-                echo "Senha incorreta";
+            if(!password_verify($senha, $usuarioSelecionado['senha'])) {
+                FlashMessage::set("erro", "Credenciais inválidas");
+                return new RedirectResponse("/login");
             }
-
         } catch (\Exception $e) {
-            $usuarioSelecionado = null;
+            FlashMessage::set("erro", "Credenciais inválidas");
+            return new RedirectResponse("/login");
         }
 
         return new RedirectResponse('/');
