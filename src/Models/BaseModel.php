@@ -57,6 +57,13 @@ class BaseModel
         $this->connection->insert($this->table, $dadosFiltrados);
     }
 
+    public function atualizar(int $id, array $dados): void
+    {
+        $dadosFiltrados = $this->filtrarCampos($dados);
+
+        $this->connection->update($this->table, $dadosFiltrados, ["id" => $id]);
+    }
+
     public function excluir(int $id): void
     {
         $this->connection->delete($this->table, ["id" => $id]);
