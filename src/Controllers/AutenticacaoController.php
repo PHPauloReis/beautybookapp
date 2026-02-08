@@ -146,7 +146,10 @@ class AutenticacaoController extends BaseController
 
     public function sair(ServerRequestInterface $request): ResponseInterface
     {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        
         session_destroy();
         
         return new RedirectResponse("/login?message=logout");
