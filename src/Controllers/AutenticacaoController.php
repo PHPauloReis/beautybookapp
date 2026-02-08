@@ -52,6 +52,10 @@ class AutenticacaoController extends BaseController
             return new RedirectResponse("/login");
         }
 
+        session_start();
+        $_SESSION['usuario_id'] = $usuarioSelecionado['id'];
+        $_SESSION['usuario_email'] = $usuarioSelecionado['email'];
+
         return new RedirectResponse('/');
     }
 
